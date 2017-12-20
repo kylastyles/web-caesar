@@ -9,7 +9,7 @@ form = """
     <html>
         <head>
             <style>
-            error {{
+            .error {{
                 color: red;
             }}
 
@@ -31,8 +31,9 @@ form = """
         </head>
         <body>
             <form action="/" method="post">
+                <p class="error">{rot_error}</p>
                 <label>Rotate by:<input name="rot" type="text" value=0 /></label>
-                <textarea name="text">{0}</textarea>
+                <textarea name="text">{text}</textarea>
                 <button>Submit Query</button>
             </form>
         </body>
@@ -65,10 +66,10 @@ def encrypt():
         rot = int(rot)
         rotated = rotate_string(text, rot)
         #return encrypted text if all good
-        return form.format(rotated)
+        return form.format(rot_error="", text=rotated)
     else:
         rot_error = "Please enter whole numbers only."
         #return error message and blank form if bad
-        return form.format("") + rot_error
+        return form.format(rot_error=rot_error, text="")
 
 app.run()
