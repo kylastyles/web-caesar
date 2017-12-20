@@ -1,5 +1,6 @@
 from flask import Flask, request
 from caesar import rotate_string
+import cgi
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -51,7 +52,7 @@ def is_integer(num):
 #show form on index page
 @app.route("/")
 def index():
-    return form.format("")
+    return form.format(rot_error="", text="")
 
 #respond to user entry
 @app.route("/", methods=["post", "get"])
@@ -64,6 +65,7 @@ def encrypt():
     #check for valid numerical entry
     if is_integer(rot) == True:
         rot = int(rot)
+        text = cgi.escape(text)
         rotated = rotate_string(text, rot)
         #return encrypted text if all good
         return form.format(rot_error="", text=rotated)
